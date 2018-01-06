@@ -1,16 +1,83 @@
 <!DOCTYPE html>
+<!--
+Copyright (c) 2016 Google Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
 <html>
 <head>
-  <title></title>
-  
-<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+  <meta charset=utf-8 />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firebase Cloud Messaging Example</title>
+
+  <!-- Material Design Theming -->
+  <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.orange-indigo.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+
+  <link rel="stylesheet" href="main.css">
+
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header">
+
+  <!-- Header section containing title -->
+  <header class="mdl-layout__header mdl-color-text--white mdl-color--light-blue-700">
+    <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
+      <div class="mdl-layout__header-row mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--8-col-desktop">
+        <h3>Firebase Cloud Messaging</h3>
+      </div>
+    </div>
+  </header>
+
+  <main class="mdl-layout__content mdl-color--grey-100">
+    <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
+
+      <!-- Container for the Table of content -->
+      <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
+        <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+          <!-- div to display the generated Instance ID token -->
+          <div id="token_div" style="display: none;">
+            <h4>Instance ID Token</h4>
+            <p id="token" style="word-break: break-all;"></p>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                    onclick="deleteToken()">Delete Token</button>
+          </div>
+          <!-- div to display the UI to allow the request for permission to
+               notify the user. This is shown if the app has not yet been
+               granted permission to notify. -->
+          <div id="permission_div" style="display: none;">
+            <h4>Needs Permission</h4>
+            <p id="token"></p>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                    onclick="requestPermission()">Request Permission</button>
+          </div>
+          <!-- div to display messages received by this app. -->
+          <div id="messages"></div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- Import and configure the Firebase SDK -->
+<!-- These scripts are made available when the app is served or deployed on Firebase Hosting -->
+<!-- If you do not serve/host your project using Firebase Hosting see https://firebase.google.com/docs/web/setup -->
 <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-database.js"></script>
-<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-firestore.js"></script>
 <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-messaging.js"></script>
-<script>
-  // Initialize Firebase
+<script type="text/javascript">
   var config = {
     apiKey: "AIzaSyCyvGJbZuMhevqccUlIokjLZafjFFJ4Z4A",
     authDomain: "mrneeds-bc4b7.firebaseapp.com",
@@ -19,22 +86,6 @@
     storageBucket: "mrneeds-bc4b7.appspot.com",
     messagingSenderId: "654404571217"
   };
-  // firebase.initializeApp(config);
-
-  // const messaging = firebase.messaging();
-  // messaging.requestPermission()
-  // .then(function() {
-  //   console.log('Notification permission granted.');
-  //   // TODO(developer): Retrieve an Instance ID token for use with FCM.
-  //   // ...
-  // })
-  // .catch(function(err) {
-  //   console.log('Unable to get permission to notify.', err);
-  // });
-
-
-
-
 </script>
 
 <script>
@@ -42,9 +93,11 @@
   // Retrieve Firebase Messaging object.
   const messaging = firebase.messaging();
   // [END get_messaging_object]
+
   // IDs of divs that display Instance ID token UI or request permission UI.
   const tokenDivId = 'token_div';
   const permissionDivId = 'permission_div';
+
   // [START refresh_token]
   // Callback fired if Instance ID token is updated.
   messaging.onTokenRefresh(function() {
@@ -67,6 +120,7 @@
     });
   });
   // [END refresh_token]
+
   // [START receive_message]
   // Handle incoming messages. Called when:
   // - a message is received while the app has focus
@@ -80,6 +134,7 @@
     // [END_EXCLUDE]
   });
   // [END receive_message]
+
   function resetUI() {
     clearMessages();
     showToken('loading...');
@@ -106,11 +161,13 @@
     });
   }
   // [END get_token]
+
   function showToken(currentToken) {
     // Show token in console and UI.
     var tokenElement = document.querySelector('#token');
     tokenElement.textContent = currentToken;
   }
+
   // Send the Instance ID token your application server, so that it can:
   // - send messages back to this app
   // - subscribe/unsubscribe the token from topics
@@ -123,13 +180,17 @@
       console.log('Token already sent to server so won\'t send it again ' +
           'unless it changes');
     }
+
   }
+
   function isTokenSentToServer() {
     return window.localStorage.getItem('sentToServer') == 1;
   }
+
   function setTokenSentToServer(sent) {
     window.localStorage.setItem('sentToServer', sent ? 1 : 0);
   }
+
   function showHideDiv(divId, show) {
     const div = document.querySelector('#' + divId);
     if (show) {
@@ -138,6 +199,7 @@
       div.style = "display: none";
     }
   }
+
   function requestPermission() {
     console.log('Requesting permission...');
     // [START request_permission]
@@ -156,6 +218,7 @@
     });
     // [END request_permission]
   }
+
   function deleteToken() {
     // Delete Instance ID token.
     // [START delete_token]
@@ -179,7 +242,9 @@
       console.log('Error retrieving Instance ID token. ', err);
       showToken('Error retrieving Instance ID token. ', err);
     });
+
   }
+
   // Add a message to the messages element.
   function appendMessage(payload) {
     const messagesElement = document.querySelector('#messages');
@@ -191,6 +256,7 @@
     messagesElement.appendChild(dataHeaderELement);
     messagesElement.appendChild(dataElement);
   }
+
   // Clear the messages element of all children.
   function clearMessages() {
     const messagesElement = document.querySelector('#messages');
@@ -198,67 +264,19 @@
       messagesElement.removeChild(messagesElement.lastChild);
     }
   }
+
   function updateUIForPushEnabled(currentToken) {
     showHideDiv(tokenDivId, true);
     showHideDiv(permissionDivId, false);
     showToken(currentToken);
   }
+
   function updateUIForPushPermissionRequired() {
     showHideDiv(tokenDivId, false);
     showHideDiv(permissionDivId, true);
   }
+
   resetUI();
-</script>
-
-</head>
-<body>
-
-<!-- AAAAmF2NUFE:APA91bFDaVmuSl9lNLXeRuk1Rtu3ZdspTorc0JXFvxwtoQ6qB_FNtY2JMLYxSRKHY9mz1uxpLggfWdIno-n5x3HLKzTBzOBVAaIc77kS4NWvpOKA2REQqajvjDDVB3QhPzmPK6mzA1hW -->
-
-<button onclick="sendMessageToUser()">Send Notification</button>
-
-<script type="text/javascript">
-  // function sendMessageToUser()
-  // {
-  //    $.ajax(
-  //    {
-  //        type : "POST",
-  //        url : "https://fcm.googleapis.com/fcm/send",
-
-  //        headers :
-  //        {
-  //            Authorization : "key=AAAAmF2NUFE:APA91bFDaVmuSl9lNLXeRuk1Rtu3ZdspTorc0JXFvxwtoQ6qB_FNtY2JMLYxSRKHY9mz1uxpLggfWdIno-n5x3HLKzTBzOBVAaIc77kS4NWvpOKA2REQqajvjDDVB3QhPzmPK6mzA1hW"
-  //        },
-
-  //        contentType : 'application/json',
-  //        data : JSON.stringify(
-  //        {
-  //            "to" : "<FCM REGISTRATION TOKEN OF THE DEVICE>",
-  //            "data":
-  //            {
-  //                "action" : "set_message",
-  //                "message" : "test message",
-  //                "user" : "some-user"
-  //            }
-  //        }),
-
-  //        success : function(response)
-  //        {
-  //            console.log(response);
-  //        },
-  //        error : function(xhr, status, error)
-  //        {
-  //            console.log(xhr.error);
-  //        }
-  //    });
-  // }
 </script>
 </body>
 </html>
-
-
-<?php
-
-echo "Testing FCM";
-
-?>
