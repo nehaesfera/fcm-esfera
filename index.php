@@ -90,6 +90,7 @@ limitations under the License.
     storageBucket: "mrneeds-bc4b7.appspot.com",
     messagingSenderId: "654404571217"
   };
+  firebase.initializeApp(config);
 </script>
 
 <script>
