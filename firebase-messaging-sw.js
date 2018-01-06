@@ -28,3 +28,13 @@ messaging.setBackgroundMessageHandler(function(payload) {
   return self.registration.showNotification(notificationTitle,
       notificationOptions);
 });
+
+function showNotificationPermission () {
+  messaging.requestPermission()
+    .then(() => {
+      console.log('Notification permission granted.')
+    })
+    .catch((err) => {
+      console.log('Unable to get permission to notify. ', err)
+    })
+}
