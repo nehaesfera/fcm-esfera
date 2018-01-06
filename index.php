@@ -16,15 +16,28 @@
   };
   firebase.initializeApp(config);
 
-  messaging.requestPermission()
-  .then(function() {
-    console.log('Notification permission granted.');
-    // TODO(developer): Retrieve an Instance ID token for use with FCM.
-    // ...
-  })
-  .catch(function(err) {
-    console.log('Unable to get permission to notify.', err);
-  });
+  // messaging.requestPermission()
+  // .then(function() {
+  //   console.log('Notification permission granted.');
+  //   // TODO(developer): Retrieve an Instance ID token for use with FCM.
+  //   // ...
+  // })
+  // .catch(function(err) {
+  //   console.log('Unable to get permission to notify.', err);
+  // });
+
+  // messaging.getToken()
+  // .then((currentToken) => {
+  //   if (currentToken) {
+  //     sendTokenToServer(currentToken)
+  //   } else {
+  //     // you don't have permission to show notifications
+  //     // detect whether they are blocked or not, then show your custom UI  
+  //   }
+  // })
+  // .catch((err) => {
+  //   // retrieving token failed, analyze the error
+  // })
 
 </script>
 
