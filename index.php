@@ -49,7 +49,7 @@
              "data":
              {
                  "action" : "set_message",
-                 "message" : <YOUR MESSAGE>,
+                 "message" : "test message",
                  "user" : "some-user"
              }
          }),
