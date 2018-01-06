@@ -100,8 +100,8 @@ limitations under the License.
   // [END get_messaging_object]
 
   // IDs of divs that display Instance ID token UI or request permission UI.
-  // const tokenDivId = 'token_div';
-  // const permissionDivId = 'permission_div';
+  const tokenDivId = 'token_div';
+  const permissionDivId = 'permission_div';
 
   // // [START refresh_token]
   // // Callback fired if Instance ID token is updated.
