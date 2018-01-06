@@ -1,20 +1,19 @@
 // Import and configure the Firebase SDK
 // These scripts are made available when the app is served or deployed on Firebase Hosting
 // If you do not serve/host your project using Firebase Hosting see https://firebase.google.com/docs/web/setup
-// importScripts('/__/firebase/4.8.1/firebase-app.js');
-// importScripts('/__/firebase/4.8.1/firebase-messaging.js');
-// importScripts('/__/firebase/init.js');
+
+
+importScripts('https://www.gstatic.com/firebasejs/4.8.1/firebase.js');
+importScripts('https://www.gstatic.com/firebasejs/4.8.1/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/4.8.1/firebase-messaging.js');
+
 
 // <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
 // <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-app.js"></script>
-// <!-- <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-auth.js"></script> -->
-// <!-- <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-database.js"></script> -->
-// <!-- <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-firestore.js"></script> -->
+
 // <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-messaging.js"></script>
 
-document.write('<scr'+'ipt type="text/javascript" src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js" ></scr'+'ipt>');
-document.write('<scr'+'ipt type="text/javascript" src="https://www.gstatic.com/firebasejs/4.8.1/firebase-app.js" ></scr'+'ipt>');
-document.write('<scr'+'ipt type="text/javascript" src="https://www.gstatic.com/firebasejs/4.8.1/firebase-messaging.js" ></scr'+'ipt>');
+
 
 var config = {
   apiKey: "AIzaSyCyvGJbZuMhevqccUlIokjLZafjFFJ4Z4A",
